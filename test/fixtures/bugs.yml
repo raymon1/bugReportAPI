@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  application_token: MyString
+  number: 1
+  status: 1
+  priority: 1
+  comment: MyText
+
+two:
+  application_token: MyString
+  number: 1
+  status: 1
+  priority: 1
+  comment: MyText

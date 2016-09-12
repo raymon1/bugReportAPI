@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Application token:</strong>
+  <%= @bug.application_token %>
+</p>
+
+<p>
+  <strong>Number:</strong>
+  <%= @bug.number %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @bug.status %>
+</p>
+
+<p>
+  <strong>Priority:</strong>
+  <%= @bug.priority %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @bug.comment %>
+</p>
+
+<%= link_to 'Edit', edit_bug_path(@bug) %> |
+<%= link_to 'Back', bugs_path %>
