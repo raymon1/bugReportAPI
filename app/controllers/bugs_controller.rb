@@ -1,5 +1,6 @@
 class BugsController < ApplicationController
-  before_action :set_bug, only: [:show, :edit, :update, :destroy]
+  before_action :set_bug, only: [:edit, :update, :destroy]
+  before_action :set_bug_by_number, only: [:show]
 
   # GET /bugs
   # GET /bugs.json
@@ -64,10 +65,21 @@ class BugsController < ApplicationController
     end
   end
 
+  def count
+    count = Bug.fetch_count(params[:application_token])
+    respond_to do |format|
+      format.json { render json: { count: count}, status: :created, location: @bug }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_bug
       @bug = Bug.find(params[:id])
+    end
+
+    def set_bug_by_number
+      @bug = Bug.find_by(number: params[:number], application_token: params[:application_token])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

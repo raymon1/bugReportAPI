@@ -6,6 +6,7 @@ class Bug < ApplicationRecord
 
 	has_one :state, dependent: :destroy
 	accepts_nested_attributes_for :state, allow_destroy: true
+	after_save :clear_cache
 
 	auto_increment :number, scope: :application_token, force: true, lock: true
 	
@@ -58,6 +59,26 @@ class Bug < ApplicationRecord
 		    indexes :priority
 	  end
 	end
+
+
+	def self.fetch_count(application_token)
+		key = "count_#{application_token}"
+	    count =  $redis.get(key)
+
+	    if count.nil?
+			count = Bug.where(application_token: application_token).count
+			$redis.set(key, count)
+			# Expire the cache, every 3 hours
+			$redis.expire("categories",3.hour.to_i)
+	    end
+	    count
+  	end
+
+  	def clear_cache
+  		key = "count_#{self.application_token}"
+  		$redis.del key
+  	end
+  	
 end
 
 # # Delete the previous Bugs index in Elasticsearch

@@ -50,3 +50,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "auto_increment"
 gem 'elasticsearch-model', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
 gem 'elasticsearch-rails', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
+
+gem 'redis'
+gem 'redis-namespace'
+gem 'redis-rails', '~> 5.0.1'
+gem 'redis-rack-cache', '~> 2.0.0.pre'
