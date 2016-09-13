@@ -4,7 +4,11 @@ class BugsController < ApplicationController
   # GET /bugs
   # GET /bugs.json
   def index
-    @bugs = Bug.all
+    if params[:q].nil?
+      @bugs = Bug.all
+    else
+      @bugs = Bug.search params[:q]
+    end
   end
 
   # GET /bugs/1
@@ -68,13 +72,7 @@ class BugsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def bug_params
-      puts "hiiiiiiiiiiiiii" if params[:state]
       params[:bug][:state_attributes] = params[:state] if params[:state]
-      puts "byyeee"
-      puts params[:bug][:state_attributes]
-      puts "1"
-      puts params[:state]
-      puts "2"
       params.require(:bug).permit(:application_token, :status, :priority, :comment, state_attributes: [:device, :os, :memory, :storage])
     end
 end
