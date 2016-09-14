@@ -8,8 +8,7 @@ class Bug < ApplicationRecord
 	accepts_nested_attributes_for :state, allow_destroy: true
 	after_save :clear_cache
 
-	auto_increment :number, scope: :application_token, force: true, lock: true
-	
+
 	STATUSES = {
 		0 => "New",
 		1 => "In-progress",
@@ -72,6 +71,16 @@ class Bug < ApplicationRecord
 			$redis.expire("categories",3.hour.to_i)
 	    end
 	    count
+  	end
+
+  	def self.get_next_number(application_token)
+		key = "number_#{application_token}"
+	    number =  $redis.incr key
+	    if number == 1
+	    	number == [ Bug.where(application_token: application_token).maximum(:number).to_i + 1, number ].max 
+	    	$redis.set(key, number)
+	    end
+	    number
   	end
 
   	def clear_cache

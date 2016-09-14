@@ -55,3 +55,5 @@ gem 'redis'
 gem 'redis-namespace'
 gem 'redis-rails', '~> 5.0.1'
 gem 'redis-rack-cache', '~> 2.0.0.pre'
+
+gem "bunny", ">= 2.5.1"

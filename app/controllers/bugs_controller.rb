@@ -29,15 +29,12 @@ class BugsController < ApplicationController
   # POST /bugs
   # POST /bugs.json
   def create
-    @bug = Bug.new(bug_params)
+    num = Bug.get_next_number(bug_params[:application_token])
+    bug_params[:number] = num
+    rabbitq = RabbitQueau.new()
+    rabbitq.perform("bug", bug_params, num)
     respond_to do |format|
-      if @bug.save
-        format.html { redirect_to @bug, notice: 'Bug was successfully created.' }
-        format.json { render json: { number: @bug.number}, status: :created, location: @bug }
-      else
-        format.html { render :new }
-        format.json { render json: @bug.errors, status: :unprocessable_entity }
-      end
+        format.json { render json: { number: num}, status: :created, location: @bug }
     end
   end
 
